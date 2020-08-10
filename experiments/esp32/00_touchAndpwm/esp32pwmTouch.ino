@@ -18,6 +18,7 @@ const int ledPin = 16; // ovvero GPIO16
 const int freq = 5000;
 const int ledChannel = 0;
 const int resolution = 8;
+const int wait_this = 5; // millisecondi di rallentamento per la transizione
 
 // Touch
 const int threshold = 40;
@@ -27,12 +28,12 @@ bool touch2detected = false;
 
 void IRAM_ATTR gotTouch1(){
  touch1detected = true;
- ledcWrite(ledChannel, 255);
+ // ledcWrite(ledChannel, 255);
 }
 
 void IRAM_ATTR gotTouch2(){
  touch2detected = true;
- ledcWrite(ledChannel, 0);
+ // ledcWrite(ledChannel, 0);
 }
 
 void setup() {
@@ -49,11 +50,30 @@ void setup() {
 
 void loop(){
   if(touch1detected){
-    touch1detected = false;
     Serial.println("Touch 1 detected");
+    accendiCanale(ledChannel);
+    touch1detected = false;
   }
   if(touch2detected){
-    touch2detected = false;
     Serial.println("Touch 2 detected");
+    spegniCanale(ledChannel);
+    touch2detected = false;
+  }
+}
+
+
+// funzione per accendere un canale pwm
+void accendiCanale(int onCanale){
+  for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++){
+    ledcWrite(onCanale, dutyCycle);
+    delay(wait_this);
+  }
+}
+
+// funzione per spegnere un canale pwm
+void spegniCanale(int onCanale){
+  for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--){
+    ledcWrite(onCanale, dutyCycle);
+    delay(wait_this);
   }
 }
