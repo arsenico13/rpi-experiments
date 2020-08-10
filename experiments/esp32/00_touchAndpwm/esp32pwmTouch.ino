@@ -20,17 +20,17 @@ const int ledChannel = 0;
 const int resolution = 8;
 
 // Touch
-int threshold = 40;
+const int threshold = 40;
 bool touch1detected = false;
 bool touch2detected = false;
 
 
-void gotTouch1(){
+void IRAM_ATTR gotTouch1(){
  touch1detected = true;
  ledcWrite(ledChannel, 255);
 }
 
-void gotTouch2(){
+void IRAM_ATTR gotTouch2(){
  touch2detected = true;
  ledcWrite(ledChannel, 0);
 }
