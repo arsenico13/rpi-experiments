@@ -39,8 +39,8 @@ void setup() {
   Serial.begin(115200);
   delay(1000); // give me time to bring up serial monitor
   Serial.println("ESP32 Touch Interrupt and PWM Test");
-  touchAttachInterrupt(T4, gotTouch1, threshold);
-  touchAttachInterrupt(T5, gotTouch2, threshold);
+  touchAttachInterrupt(T4, gotTouch1, threshold); // GPIO13
+  touchAttachInterrupt(T5, gotTouch2, threshold); // GPIO12
 
   // PWM
   ledcSetup(ledChannel, freq, resolution);
